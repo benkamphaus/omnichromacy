@@ -14,8 +14,9 @@
 
 (defn slurp-img-cube
   "Read an image cube from a raw binary file. At present, a horribly
-  inefficient way to read a file."
-  [f dims dt-str]
+  inefficient way to read a file. TODO: map that subs dt for appropriate
+  take fn"
+  [f dims dt]
   (let [pix-count (reduce * dims)
         buf (raw-read f)]
     (reshape (repeatedly pix-count #(bb/take-short buf)) dims)))
