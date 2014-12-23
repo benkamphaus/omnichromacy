@@ -4,6 +4,8 @@
             [nio.core :as nio])
   (:import [java.nio ByteBuffer]))
 
+(clojure.core.matrix/set-current-implementation :vectorz)
+
 (defn raw-read
   "Read every byte in file to heap ByteBuffer"
   [f & {:keys [endian] :or {endian :little-endian}}]
@@ -34,6 +36,14 @@
   [bstream f]
   nil)
 
+(defn reshape-xduce [arr x y z]
+  "Don't use this."
+  (transduce (comp (partition-all x)
+                   (partition-all y)
+                   (partition-all z))
+             conj
+             arr))
+
 (comment
 
   ; WIP notes will go here
@@ -43,6 +53,6 @@
   ; simple bsq image
   (def _ramp (reshape (range 100000) [100 100 10]))
 
-  (def nireland
+  (def nireland-hsi
     (slurp-image "data/nireland.dat" [472 682 128]))
 )
