@@ -5,4 +5,9 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0-alpha4"]
                  [incanter "1.5.5"]
-                 [net.mikera/core.matrix "0.29.1"]])
+                 [net.mikera/core.matrix "0.29.1"]
+                 [clojurewerkz/buffy "1.0.0"]
+                 [bytebuffer "0.2.0"]
+                 [gloss "0.2.4"]
+                 [commons-io "2.4"]
+                 [nio "1.0.3"]])
