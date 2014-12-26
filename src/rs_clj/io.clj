@@ -1,10 +1,10 @@
 (ns rs-clj.io
-  (:require [clojure.core.matrix :refer [reshape]]
+  (:require [clojure.core.matrix :as mat]
             [clojure.java.io :refer [input-stream]]
             [nio.core :as nio])
   (:import [java.nio ByteBuffer]))
 
-(clojure.core.matrix/set-current-implementation :vectorz)
+(mat/set-current-implementation :vectorz)
 
 (defn raw-read
   "Read every byte in file to heap ByteBuffer"
@@ -27,9 +27,18 @@
       (.get buf arr)
       arr))
 
-(defn slurp-image
+
+
+(defn slurp-image-cube
   [f dims & {:keys [endian] :or {endian :little-endian}}]
-  (reshape (slurp-binary f :endian endian) dims))
+  (let [[x y z] dims]
+    (->> (slurp-binary f :endian endian)
+        (partition x)
+        (into-array Short/TYPE)
+        (partition y)
+        (into-array)
+        (partition z)
+        (into-array))))
 
 (defn raw-dump
   "Dump every byte in bstream into file"
@@ -54,5 +63,5 @@
   (def _ramp (reshape (range 100000) [100 100 10]))
 
   (def nireland-hsi
-    (slurp-image "data/nireland.dat" [472 682 128]))
+    (slurp-image-cube "data/nireland.dat" [472 682 128]))
 )
