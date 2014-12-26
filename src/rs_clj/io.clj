@@ -4,7 +4,7 @@
             [nio.core :as nio])
   (:import [java.nio ByteBuffer]))
 
-(mat/set-current-implementation :vectorz)
+(mat/set-current-implementation :ndarray)
 
 (defn raw-read
   "Read every byte in file to heap ByteBuffer"
@@ -12,9 +12,9 @@
   (let [channel (nio/channel f)
         size (.size channel)
         buf (ByteBuffer/allocate size)]
-        (.read channel buf 0)
-        (nio/set-byte-order! buf endian)
-        buf))
+    (do (.read channel buf 0)
+        (nio/set-byte-order! buf endian))
+    buf))
 
 (defn slurp-binary
   "Slurp binary file of shorts into array. TODO: expand to
@@ -24,21 +24,16 @@
         maker short-array
         buf (.asShortBuffer bbuf)
         arr (maker (.limit buf))]
-      (.get buf arr)
-      arr))
+    (do (.get buf arr))
+    arr))
 
 
 
 (defn slurp-image-cube
   [f dims & {:keys [endian] :or {endian :little-endian}}]
   (let [[x y z] dims]
-    (->> (slurp-binary f :endian endian)
-        (partition x)
-        (into-array Short/TYPE)
-        (partition y)
-        (into-array)
-        (partition z)
-        (into-array))))
+    (-> (slurp-binary f :endian endian)
+        (mat/reshape dims))))
 
 (defn raw-dump
   "Dump every byte in bstream into file"
