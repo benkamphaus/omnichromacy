@@ -17,22 +17,27 @@
     buf))
 
 (defn slurp-binary
-  "Slurp binary file of shorts into array. TODO: expand to
-  accept other data types."
-  [f & {:keys [endian] :or {endian :little-endian}}]
+  "Slurp binary file of consisting of a flat array. Accepted datatypes are:
+    :byte :short :int :long :float :double
+  Can specify optional :endian keyword argument as :little-endian or :big-endian"
+  [f dt & {:keys [endian] :or {endian :little-endian}}]
+
   (let [bbuf (.flip (raw-read f :endian endian))
-        maker short-array
-        buf (.asShortBuffer bbuf)
-        arr (maker (.limit buf))]
+        lookup {:byte   [byte-array 'identity]
+                :short  [short-array '.asShortBuffer]
+                :int    [int-array '.asIntBuffer]
+                :long   [long-array '.asLongBuffer]
+                :float  [float-array '.asFloatBuffer]
+                :double [double-array 'asDoubleBuffer]}
+        buf (eval (list (second (dt lookup)) 'bbuf))
+        arr (eval (list (first (dt lookup)) (.limit buf)))]
     (do (.get buf arr))
     arr))
 
-
-
 (defn slurp-image-cube
-  [f dims & {:keys [endian] :or {endian :little-endian}}]
+  [f dims dt & {:keys [endian] :or {endian :little-endian}}]
   (let [[x y z] dims]
-    (-> (slurp-binary f :endian endian)
+    (-> (slurp-binary f dt :endian endian)
         (mat/reshape dims))))
 
 (defn raw-dump
@@ -58,5 +63,5 @@
   (def _ramp (reshape (range 100000) [100 100 10]))
 
   (def nireland-hsi
-    (slurp-image-cube "data/nireland.dat" [472 682 128]))
+    (slurp-image-cube "data/nireland.dat" [472 682 128] :short))
 )
