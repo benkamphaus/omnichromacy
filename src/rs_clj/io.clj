@@ -22,17 +22,28 @@
   Can specify optional :endian keyword argument as :little-endian or :big-endian"
   [f dt & {:keys [endian] :or {endian :little-endian}}]
 
-  (let [bbuf (.flip (raw-read f :endian endian))
-        arr (cond (= dt :byte) (.array bbuf)
-                  (= dt :short) (let [buf (.asShortBuffer bbuf)
-                                      arr (short-array (.limit buf))]
-                                  (do (.get buf arr))
-                                  arr)
-                  (= dt :int) (.array (.asIntBuffer bbuf))
-                  (= dt :float) (.array (.asFloatBuffer bbuf))
-                  (= dt :double) (.array (.asDoubleBuffer bbuf))
-                 :else nil)]
-     arr) )
+  (let [bbuf (.flip (raw-read f :endian endian))]
+     (cond (= dt :byte) (.array bbuf)
+            (= dt :short) (let [buf (.asShortBuffer bbuf)
+                                arr (short-array (.limit buf))]
+                            (do (.get buf arr))
+                            arr)
+            (= dt :int) (let [buf (.asIntBuffer bbuf)
+                              arr (int-array (.limit buf))]
+                            (do (.get buf arr))
+                            arr)
+            (= dt :long) (let [buf (.asLongBuffer bbuf)
+                              arr (long-array (.limit buf))]
+                            (do (.get buf arr))
+                            arr)
+            (= dt :float) (let [buf (.asFloatBuffer bbuf)
+                              arr (float-array (.limit buf))]
+                            (do (.get buf arr))
+                            arr)
+            (= dt :double) (let [buf (.asDoubleBuffer bbuf)
+                                arr (double-array (.limit buf))]
+                            (do (.get buf arr))
+                           arr))))
 
 (defn slurp-image-cube
   [f dims dt & {:keys [endian] :or {endian :little-endian}}]
