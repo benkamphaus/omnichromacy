@@ -4,7 +4,7 @@
             [nio.core :as nio])
   (:import [java.nio ByteBuffer]))
 
-(mat/set-current-implementation :ndarray)
+(mat/set-current-implementation :jblas)
 
 (defn raw-read
   "Read every byte in file to heap ByteBuffer"
@@ -23,16 +23,16 @@
   [f dt & {:keys [endian] :or {endian :little-endian}}]
 
   (let [bbuf (.flip (raw-read f :endian endian))
-        lookup {:byte   [byte-array 'identity]
-                :short  [short-array '.asShortBuffer]
-                :int    [int-array '.asIntBuffer]
-                :long   [long-array '.asLongBuffer]
-                :float  [float-array '.asFloatBuffer]
-                :double [double-array 'asDoubleBuffer]}
-        buf (eval (list (second (dt lookup)) 'bbuf))
-        arr (eval (list (first (dt lookup)) (.limit buf)))]
-    (do (.get buf arr))
-    arr))
+        arr (cond (= dt :byte) (.array bbuf)
+                  (= dt :short) (let [buf (.asShortBuffer bbuf)
+                                      arr (short-array (.limit buf))]
+                                  (do (.get buf arr))
+                                  arr)
+                  (= dt :int) (.array (.asIntBuffer bbuf))
+                  (= dt :float) (.array (.asFloatBuffer bbuf))
+                  (= dt :double) (.array (.asDoubleBuffer bbuf))
+                 :else nil)]
+     arr) )
 
 (defn slurp-image-cube
   [f dims dt & {:keys [endian] :or {endian :little-endian}}]
@@ -46,7 +46,7 @@
   nil)
 
 (defn reshape-xduce [arr x y z]
-  "Don't use this."
+  "Don't use this, I'm just trying to figure out why reshape is so slow."
   (transduce (comp (partition-all x)
                    (partition-all y)
                    (partition-all z))
@@ -63,5 +63,6 @@
   (def _ramp (reshape (range 100000) [100 100 10]))
 
   (def nireland-hsi
-    (slurp-image-cube "data/nireland.dat" [472 682 128] :short))
+    (time
+    (slurp-image-cube "data/nireland.dat" [472 682 128] :short)))
 )
