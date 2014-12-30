@@ -3,9 +3,14 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :jvm-opts ^:replace ["-Xmx8g" "-Xms1g"]
-  :dependencies [[org.clojure/clojure "1.7.0-alpha4"]
+  :jvm-opts ^:replace ["-d64" "-server"
+                       "-Xms1g"
+                       "-XX:+UseG1GC"
+                       ;"-XX:+UseConcMarkSweepGC" "-XX:+UseParNewGC" "-XX:+CMSParallelRemarkEnabled" 
+                       "-XX:+UseCompressedOops" 
+                       "-XX:+ExplicitGCInvokesConcurrent"]
+  :dependencies [[org.clojure/clojure "1.6.0"]
                  [incanter "1.5.5"]
-                 [net.mikera/core.matrix "0.29.1"]
-                 [net.mikera/vectorz-clj "0.26.2"]
+                 [net.mikera/core.matrix "0.32.1"]
+                 [net.mikera/vectorz-clj "0.28.0"]
                  [nio "1.0.3"]])
