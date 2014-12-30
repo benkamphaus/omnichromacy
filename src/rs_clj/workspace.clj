@@ -18,8 +18,11 @@
 
   (def nireland-bip
     (time
-      (dshapes/change-interleave nireland-bsq :bsq :bil)))
+      (dshapes/change-interleave nireland-bsq :bsq :bip)))
 
+  (def nireland-mat
+    (time
+      (dshapes/as-spectral-matrix nireland-bip)))
 )
 
 
