@@ -15,4 +15,8 @@
                    (transpose)
                    (reshape [(dims 2) (dims 0) (dims 1)])))))
 
-
+(defn as-spectral-matrix
+  "Returns a :bip image cube as a spectral matrix (x,y dims flattened)"
+  [img-cube]
+  (let [dims (shape img-cube)]
+    (reshape img-cube [(dims 0) (* (dims 1) (dims 2))])))

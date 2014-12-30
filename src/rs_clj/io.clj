@@ -66,15 +66,3 @@
   "not implemented"
   [arr]
   nil)
-
-(comment
-
-  ; WIP notes are here.
-  (require 'rs-clj.io)
-  (in-ns 'rs-clj.io)
-
-  (def nireland-hsi
-    (time
-    (slurp-image-cube "data/nireland.dat" [472 682 128] :short)))
-  ;~2 sec
-)
