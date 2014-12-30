@@ -1,7 +1,7 @@
 (ns rs-clj.workspace
   (:require [rs-clj.io :as io]
-            [rs-clj.data-shapes :as dshapes])
-  (:use [clojure.core.matrix]))
+            [rs-clj.data-shapes :as dshapes]
+            [rs-clj.stats :as rsstats]))
 
 ; A list of wip functions that utilize these proto-modules
 
@@ -23,6 +23,15 @@
   (def nireland-mat
     (time
       (dshapes/as-spectral-matrix nireland-bip)))
+
+  (def nireland-stats
+    (time
+      (rsstats/band-stats nireland-mat)))
+
+  ; Can get stats like this:
+  (:mean nireland-stats)
+
+
 )
 
 
