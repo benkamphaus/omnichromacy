@@ -1,7 +1,9 @@
 (ns rs-clj.workspace
   (:require [rs-clj.io :as io]
             [rs-clj.data-shapes :as dshapes]
-            [rs-clj.stats :as rsstats]))
+            [rs-clj.stats :as rsstats]
+            [rs-clj.viz :as viz]
+            [incanter.core :refer [view]]))
 
 ; A list of wip functions that utilize these proto-modules
 
@@ -31,7 +33,9 @@
   ; Can get stats like this:
   (:mean nireland-stats)
 
+  (view (viz/scatter nireland-mat 20 21))
 
+  (view (viz/spectral-plot nireland-mat 10000))
 )
 
 
