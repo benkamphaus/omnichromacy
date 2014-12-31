@@ -6,7 +6,7 @@
   :jvm-opts ^:replace ["-d64" "-server"
                        "-Xms1g"
                        "-XX:+UseG1GC"
-                       "-Xmx2g"
+                       "-Xmx6g"
                        ;"-XX:+UseConcMarkSweepGC" "-XX:+UseParNewGC" "-XX:+CMSParallelRemarkEnabled" 
                        "-XX:+UseCompressedOops" 
                        "-XX:+ExplicitGCInvokesConcurrent"]
