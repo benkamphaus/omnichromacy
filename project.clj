@@ -14,4 +14,5 @@
                  [incanter "1.5.5"]
                  [net.mikera/core.matrix "0.32.1"]
                  [net.mikera/vectorz-clj "0.28.0"]
+                 [net.mikera/core.matrix.stats "0.5.0"]
                  [nio "1.0.3"]])
