@@ -1,4 +1,4 @@
-(ns rs-clj.stats
+(ns omnichromacy.stats
   (:require [clojure.core.matrix.stats :refer [mean variance sd sum]]
             [clojure.core.matrix :refer [transpose]]))
 

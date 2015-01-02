@@ -1,4 +1,4 @@
-(ns rs-clj.io
+(ns omnichromacy.io
   (:require [clojure.core.matrix :as mat]
             [nio.core :as nio])
   (:import [java.nio ByteBuffer]))

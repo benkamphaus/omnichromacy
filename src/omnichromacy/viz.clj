@@ -1,4 +1,4 @@
-(ns rs-clj.viz
+(ns omnichromacy.viz
   (:require [incanter.charts :refer [scatter-plot line-chart]]
             [clojure.core.matrix :refer [slice transpose]]))
 

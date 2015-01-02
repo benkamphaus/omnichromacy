@@ -1,4 +1,4 @@
-(ns rs-clj.data-shapes
+(ns omnichromacy.data-shapes
   (:use [clojure.core.matrix]))
 
 (defn change-interleave

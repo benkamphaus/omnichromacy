@@ -1,8 +1,8 @@
-(ns rs-clj.workspace
-  (:require [rs-clj.io :as io]
-            [rs-clj.data-shapes :as dshapes]
-            [rs-clj.stats :as rsstats]
-            [rs-clj.viz :as viz]
+(ns omnichromacy.workspace
+  (:require [omnichromacy.io :as io]
+            [omnichromacy.data-shapes :as dshapes]
+            [omnichromacy.stats :as stats]
+            [omnichromacy.viz :as viz]
             [incanter.core :refer [view save]]))
 
 ; A list of wip functions that utilize these proto-modules
@@ -10,8 +10,8 @@
 (comment
 
   ; repl starting point
-  (require 'rs-clj.workspace)
-  (in-ns 'rs-clj.workspace)
+  (require 'omnichromacy.workspace)
+  (in-ns 'omnichromacy.workspace)
   (use 'clojure.repl)
 
   (def nireland-bsq
@@ -28,7 +28,7 @@
 
   (def nireland-stats
     (time
-      (rsstats/band-stats nireland-mat)))
+      (stats/band-stats nireland-mat)))
 
   ; Can get stats like this:
   (:mean nireland-stats)
@@ -50,6 +50,7 @@
     (time
       (dshapes/as-spectral-matrix beltsville-bip)))
 
+  (view (viz/spectral-plot beltsville-mat 1200))
   (save (viz/spectral-plot beltsville-mat 1200) "spectralplot.png")
 
 )
