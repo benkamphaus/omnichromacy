@@ -9,6 +9,9 @@ Clojure library you can overcome your biological limitations and analyze
 and visualize combinations of colors outside the visual spectrum or run
 analysis on more than three dimensions.
 
+![Landsat8](docs/landsat.png)
+![Unmixed](docs/impervious.png)
+
 This library presently depends heavily on core.matrix and to a lesser extent,
 incanter.
 
