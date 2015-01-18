@@ -11,6 +11,7 @@
                        "-XX:+UseCompressedOops" 
                        "-XX:+ExplicitGCInvokesConcurrent"]
   :dependencies [[org.clojure/clojure "1.6.0"]
+                 [com.datomic/datomic-free "0.9.5130"]
                  [incanter "1.5.5"]
                  [net.mikera/core.matrix "0.32.1"]
                  [net.mikera/vectorz-clj "0.28.0"]
