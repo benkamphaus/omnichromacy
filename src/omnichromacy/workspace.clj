@@ -3,6 +3,7 @@
             [omnichromacy.data-shapes :as dshapes]
             [omnichromacy.stats :as stats]
             [omnichromacy.viz :as viz]
+            [clojure.core.matrix :as mat]
             [incanter.core :refer [view save]]))
 
 ; A list of wip functions that utilize these proto-modules
@@ -35,20 +36,18 @@
   (view (viz/spectral-plot (into [] (:mean nireland-stats))))
 
   ; beltsville bil image workflow
-  (def beltsville 
+  (def beltsville-bil
     (time
-      (io/slurp-image-cube "data/0810_2022_ref.dat" [320 360 600] :short)))
+      (io/slurp-image-cube "data/0810_2022_ref.dat" [600 360 320] :short)))
 
-  (def beltsville-bip
+  (def beltsville-spectral-slice
     (time
-      (dshapes/change-interleave beltsville :bil :bip)))
+      (-> beltsville-bil (mat/slice 1)
+                         (mat/slice 1 1))))
 
-  (def beltsville-mat
-    (time
-      (dshapes/as-spectral-matrix beltsville-bip)))
-
-  (view (viz/spectral-plot beltsville-mat 1200))
-  (save (viz/spectral-plot beltsville-mat 1200) "spectralplot.png")
+  (let [beltsville-plot (viz/spectral-plot (into [] beltsville-spectral-slice)))]
+    (view beltsville-plot)
+    (save beltsville-plot "spectralplot.png"))
 
 )
 
