@@ -14,17 +14,13 @@
   (in-ns 'omnichromacy.workspace)
   (use 'clojure.repl)
 
-  (def nireland-bsq
+  (def nireland-img
     (time
-      (io/slurp-image-cube "data/nireland.dat" [472 682 128] :short)))
-
-  (def nireland-bip
-    (time
-      (dshapes/change-interleave nireland-bsq :bsq :bip)))
+      (io/slurp-image-cube "data/nireland.dat" [128 682 472] :short)))
 
   (def nireland-mat
     (time
-      (dshapes/as-spectral-matrix nireland-bip)))
+      (dshapes/as-spectral-matrix nireland-img)))
 
   (def nireland-stats
     (time
@@ -33,9 +29,10 @@
   ; Can get stats like this:
   (:mean nireland-stats)
 
-  (view (viz/scatter nireland-mat 20 21))
+  (view (viz/scatter nireland-mat 70 110))
 
   (view (viz/spectral-plot nireland-mat 10000))
+  (view (viz/spectral-plot (into [] (:mean nireland-stats))))
 
   ; beltsville bil image workflow
   (def beltsville 
