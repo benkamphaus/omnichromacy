@@ -1,6 +1,8 @@
 (ns omnichromacy.io
   (:require [clojure.core.matrix :as mat]
-            [nio.core :as nio])
+            [nio.core :as nio]
+            [omnichromacy.core :refer [image-cube spectrum]]
+            [clojure.string :as str])
   (:import [java.nio ByteBuffer]))
 
 (mat/set-current-implementation :vectorz)
@@ -57,6 +59,34 @@
         (mat/array)
         (mat/reshape dims))))
 
+(defn from-envi-file
+  "Example that splits entire file format into ImageCube record type."
+  [fname] nil)
+  ;; get metadata we care about from envi header with parse-envi-header on slurped basename of file + .hdr
+  ;; detect interleave as well (add to parse-envi-header)
+  ;; get into correctly aligned spectral matrix
+  ;; return ImageCube record/type from map as returned value from this function
+
+(defn parse-envi-header
+  "Return relevant fields from ENVI header file. Means right now is temporary
+  until replaced w/more robust matching, i.e. regex."
+  [hdr-text] 
+  (let [as-vec (into [] (map #(.replaceAll % "\r" "")
+                             (str/split hdr-text #"[=\n]")))
+        cols (read-string (nth as-vec (inc (.indexOf as-vec "samples "))))
+        rows (read-string (nth as-vec (inc (.indexOf as-vec "lines   "))))
+        bands (read-string (nth as-vec (inc (.indexOf as-vec "bands   "))))
+        wls (into [] (map read-string
+                           (str/split (.replaceAll 
+                                        (apply str 
+                                          (first (rest (split-at 
+                                                        (inc (inc (.indexOf as-vec "wavelength "))) as-vec)))) "}" "") #",")))]
+    {:cols cols
+     :rows rows
+     :bands bands
+     :wavelengths wls}))
+
+
 (defn raw-dump
   "Dump every byte in bstream into file, not implemented."
   [bstream f]
@@ -66,3 +96,4 @@
   "not implemented"
   [arr]
   nil)
+
