@@ -3,7 +3,7 @@
 
 (defn change-interleave
   "Rolled backuntil fixed -- C vs. Fortran ordering from data files."
-  nil)
+  [] nil)
 
 (defn as-spectral-matrix
   "Returns a :bip image cube as a spectral matrix (x,y dims flattened)"
