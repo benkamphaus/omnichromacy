@@ -12,7 +12,7 @@
 
 (defn spectral-plot
   "Plots spectrum at given pixel when passed spectral mat and collapsed coord"
-  [spectral-mat coord]
-  (let [spectrum (into [] (slice (transpose spectral-mat) coord))
-        index (range (count spectrum))]
-    (line-chart index spectrum)))
+  ([spectrum]
+    (line-chart (range (count spectrum)) spectrum))
+  ([spectral-mat coord]
+    (spectral-plot (into [] (slice (transpose spectral-mat) coord)))))
