@@ -45,7 +45,7 @@
       (-> beltsville-bil (mat/slice 1)
                          (mat/slice 1 1))))
 
-  (let [beltsville-plot (viz/spectral-plot (into [] beltsville-spectral-slice)))]
+  (let [beltsville-plot (viz/spectral-plot (into [] beltsville-spectral-slice))]
     (view beltsville-plot)
     (save beltsville-plot "spectralplot.png"))
 

@@ -11,8 +11,10 @@
     (scatter-plot b1-vals b2-vals)))
 
 (defn spectral-plot
-  "Plots spectrum at given pixel when passed spectral mat and collapsed coord"
+  "Plots spectrum at given pixel when passed spectral mat and collapsed coord,
+  or vector of values as a spectrum"
   ([spectrum]
-    (line-chart (range (count spectrum)) spectrum))
+    (line-chart (range (count spectrum)) spectrum
+                :x-label "Wavelength" :y-label "Reflectance"))
   ([spectral-mat coord]
     (spectral-plot (into [] (slice (transpose spectral-mat) coord)))))
