@@ -32,6 +32,7 @@
   (view (viz/scatter nireland-mat 70 110))
 
   (view (viz/spectral-plot nireland-mat 10000))
+  (view (viz/spectral-plot (into [] (:mean nireland-stats))))
 
   ; beltsville bil image workflow
   (def beltsville 
